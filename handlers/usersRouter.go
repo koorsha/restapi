@@ -9,6 +9,9 @@ import (
 
 // UsersRouter handles the users route
 func UsersRouter(w http.ResponseWriter, r *http.Request) {
+
+	enableCors(&w)
+
 	path := strings.TrimSuffix(r.URL.Path, "/")
 
 	if path == "/users" {
@@ -62,4 +65,8 @@ func UsersRouter(w http.ResponseWriter, r *http.Request) {
 		postError(w, http.StatusMethodNotAllowed)
 		return
 	}
+}
+
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
