@@ -10,8 +10,11 @@ import (
 // UsersRouter handles the users route
 func UsersRouter(w http.ResponseWriter, r *http.Request) {
 
-	enableCors(&w)
-
+	setupResponse(&w, r)
+	if (*r).Method == "OPTIONS" {
+		return
+	}
+	
 	path := strings.TrimSuffix(r.URL.Path, "/")
 
 	if path == "/users" {
@@ -69,4 +72,10 @@ func UsersRouter(w http.ResponseWriter, r *http.Request) {
 
 func enableCors(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+}
+
+func setupResponse(w *http.ResponseWriter, req *http.Request) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+    (*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+    (*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
