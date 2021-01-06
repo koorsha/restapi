@@ -66,6 +66,7 @@ func usersPostOne(w http.ResponseWriter, r *http.Request) {
 	}
 	cache.Drop("/users")
 	w.Header().Set("Location", "/users/"+u.ID.Hex())
+	w.Header().Set("Uid", u.ID.Hex())
 	w.WriteHeader(http.StatusCreated)
 }
 
@@ -154,5 +155,6 @@ func usersDeleteOne(w http.ResponseWriter, r *http.Request, id bson.ObjectId) {
 	}
 	cache.Drop("/users")
 	cache.Drop(cache.MakeResource(r))
+	w.Header().Set("Uid", string(id))
 	w.WriteHeader(http.StatusOK)
 }
